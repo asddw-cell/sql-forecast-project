@@ -14,8 +14,8 @@ Script Purpose:
 	Global:
 		tblForecastType
 		tblSalesChannel
-		tblBrand
 		tblPriceType
+		tblBrand
 		tblUserLogin
 
 	Region specific:
@@ -81,4 +81,26 @@ INSERT INTO [dbo].[tblSalesChannel]
            ,'ECommerce'),
 		   ('FOB/DTR'
            ,'FOB/DI')
+GO
+
+
+-- Create the dimension table tblPriceType and populate values
+CREATE TABLE [dbo].[tblPriceType](
+	[Code] [int] NOT NULL,
+	[Description] [nvarchar](10) NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[Code] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+INSERT INTO [dbo].[tblPriceType]
+           ([Code]
+           ,[Description])
+     VALUES
+           (1
+           ,'List'),
+		   (2
+           ,'Special')
 GO
