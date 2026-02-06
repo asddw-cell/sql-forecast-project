@@ -3,4 +3,4 @@ Building a solution allowing end users to maintain a product forecast via an ele
 
 1. init_database.sql
 2. create_dimtables.sql
-3. create_tblForecastData.sql
+3. create_tblForecastData_US.sql
