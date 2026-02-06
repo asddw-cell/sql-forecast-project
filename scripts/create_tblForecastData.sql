@@ -42,12 +42,12 @@ GO
 CREATE TABLE [dbo].[tblForecastData_US] (
 	[EntryNo] [int] IDENTITY(1, 1) NOT NULL
 	,[ForecastType] [int] NOT NULL
-	,[SalesChannel] [nvarchar](20) NOT NULL
+	,[SalesChannel] [nvarchar](15) NOT NULL
 	,[ForecastCustomer] [nvarchar](20) NOT NULL
 	,[Year] [int] NOT NULL
 	,[MonthNum] [int] NOT NULL
 	,[ItemCategory] [nvarchar](20) NULL
-	,[Brand] [nvarchar](20) NOT NULL
+	,[Brand] [nvarchar](25) NOT NULL
 	,[ItemNo] [nvarchar](20) NOT NULL
 	,[Quantity] [decimal](38, 20) NOT NULL
 	,[Price] [decimal](38, 20) NOT NULL
@@ -68,6 +68,24 @@ CREATE TABLE [dbo].[tblForecastData_US] (
 		,ALLOW_PAGE_LOCKS = ON
 		,OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF
 		) ON [PRIMARY]
+	-- Add foreign key constraint for ForecastType
+	,CONSTRAINT FK_tblForecastData_US_ForecastType FOREIGN KEY ([ForecastType]) 
+		REFERENCES [dbo].[tblForecastType]([Code])
+	-- Add foreign key constraint for SalesChannel
+	,CONSTRAINT FK_tblForecastData_US_SalesChannel FOREIGN KEY ([SalesChannel]) 
+		REFERENCES [dbo].[tblSalesChannel]([Code])
+	-- Add foreign key constraint for ForecastCustomer
+	,CONSTRAINT FK_tblForecastData_US_ForecastCustomer FOREIGN KEY ([ForecastCustomer]) 
+		REFERENCES [dbo].[tblForecastCustomer_US]([Code])
+	-- Add foreign key constraint for Brand
+	,CONSTRAINT FK_tblForecastData_US_Brand FOREIGN KEY ([Brand]) 
+		REFERENCES [dbo].[tblBrand]([Code])
+	-- Add foreign key constraint for ItemNo
+	,CONSTRAINT FK_tblForecastData_US_ItemNo FOREIGN KEY ([ItemNo]) 
+		REFERENCES [dbo].[tblItem_US]([ItemNo])
+	-- Add foreign key constraint for PriceType
+	,CONSTRAINT FK_tblForecastData_US_PriceType FOREIGN KEY ([PriceType]) 
+		REFERENCES [dbo].[tblPriceType]([Code])
 	,PERIOD FOR SYSTEM_TIME([SysStartTime], [SysEndTime])
 	) ON [PRIMARY]
 	-- Add history table for recording changes
