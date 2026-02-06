@@ -35,7 +35,9 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
--- Create the dimension table tblForecastType and populate values
+
+-- Create the dimension table tblForecastType and populate values.
+
 CREATE TABLE [dbo].[tblForecastType](
 	[Code] [int] NOT NULL,
 	[Description] [nvarchar](10) NULL,
@@ -59,7 +61,9 @@ INSERT INTO [dbo].[tblForecastType]
            ,'Purchase')
 GO
 
--- Create the dimension table tblSalesChannel and populate values
+
+-- Create the dimension table tblSalesChannel and populate values.
+
 CREATE TABLE [dbo].[tblSalesChannel](
 	[Code] [nvarchar](15) NOT NULL,
 	[Description] [nvarchar](30) NULL,
@@ -84,7 +88,8 @@ INSERT INTO [dbo].[tblSalesChannel]
 GO
 
 
--- Create the dimension table tblPriceType and populate values
+-- Create the dimension table tblPriceType and populate values.
+
 CREATE TABLE [dbo].[tblPriceType](
 	[Code] [int] NOT NULL,
 	[Description] [nvarchar](10) NULL,
@@ -103,4 +108,17 @@ INSERT INTO [dbo].[tblPriceType]
            ,'List'),
 		   (2
            ,'Special')
+GO
+
+
+-- Create the dimension table tblBrand. Values will be populated on a schedule via stored procedure.
+
+CREATE TABLE [dbo].[tblBrand](
+	[Code] [nvarchar](25) NOT NULL,
+	[Description] [nvarchar](150) NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[Code] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
 GO
