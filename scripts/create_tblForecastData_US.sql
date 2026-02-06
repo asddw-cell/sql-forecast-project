@@ -1,18 +1,18 @@
+
 /*
 
 ==============================================================================
 
-Create transactional ForecastData table
+Create transactional ForecastData table for US
 
 ==============================================================================
 
 Script Purpose:
-	This script creates a system versioned table called 'tblForecastData' after checking if it already exists.
+	This script creates a system versioned table called 'tblForecastData_US' after checking if it already exists.
 	If the table exists, it is dropped and recreated.
-	*** Note the 3 character suffix after 'tblForecastData' denotes the region e.g. _US, _UK, _EU, _AU
 
 Warning:
-	Running this script will drop the entire 'tblForecastData' table for the entered region if it exists.
+	Running this script will drop the entire 'tblForecastData_US' table if it exists.
 	All data in the table will be permanently deleted. Proceed with caution and ensure you have proper backups 
 	before running this script.
 */
