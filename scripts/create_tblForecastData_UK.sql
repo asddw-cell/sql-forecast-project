@@ -1,4 +1,3 @@
-
 /*
 
 ==============================================================================
@@ -9,7 +8,7 @@ Create transactional ForecastData table for UK
 
 Script Purpose:
 	This script creates a system versioned table called 'tblForecastData_UK' after checking if it already exists.
-	If the table exists, it is dropped and recreated.
+	If the table exists, it is dropped and recreated. Also creates primary and foreign keys.
 
 Warning:
 	Running this script will drop the entire 'tblForecastData_UK' table if it exists.
