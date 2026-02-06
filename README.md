@@ -8,6 +8,8 @@ Phase 1 limitations:
 
 Backend preparation.
 
+[Scripts](https://github.com/asddw-cell/sql-forecast-project/tree/main/scripts)
+
   1. init_database.sql to create the database.
   2. create_dimtables.sql to create the dimensional tables.
   3. create_tblForecastData_US.sql to create the transactional table for US.
