@@ -1,5 +1,5 @@
 # sql-forecast-project
-Building a solution allowing end users to maintain a product forecast via an elegant frontend connected to a SQL Server backend. The solution will use MS SQL Server 2019 Std, MS Excel macro enabled workbooks and SQL Spreads Addin for Excel.
+Building a solution allowing end users to maintain a product forecast via an elegant frontend connected to a SQL Server backend. The solution will use MS SQL Server 2019 Std at the backend with MS Excel macro enabled workbooks and SQL Spreads Addin for Excel to maintain the data.
 
 Phase 1 limitations:
   1.  The frontend will not show actual quantities and values.
