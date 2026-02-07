@@ -1,3 +1,4 @@
+
 /*
 
 ==============================================================================
@@ -45,7 +46,7 @@ CREATE TABLE [dbo].[tblForecastData_UK] (
 	,[ForecastCustomer] [nvarchar](20) NOT NULL
 	,[Year] [int] NOT NULL
 	,[MonthNum] [int] NOT NULL
-	,[ItemCategory] [nvarchar](20) NULL
+	,[BusinessUnit] [int] NULL
 	,[Brand] [nvarchar](25) NOT NULL
 	,[ItemNo] [nvarchar](20) NOT NULL
 	,[Quantity] [decimal](38, 20) NOT NULL
@@ -76,6 +77,9 @@ CREATE TABLE [dbo].[tblForecastData_UK] (
 	-- Add foreign key constraint for ForecastCustomer
 	,CONSTRAINT FK_tblForecastData_UK_ForecastCustomer FOREIGN KEY ([ForecastCustomer]) 
 		REFERENCES [dbo].[tblForecastCustomer_UK]([Code])
+	-- Add foreign key constraint for BusinessUnit
+	,CONSTRAINT FK_tblForecastData_UK_BusinessUnit FOREIGN KEY ([BusinessUnit]) 
+		REFERENCES [dbo].[tblBusinessUnit]([Code])
 	-- Add foreign key constraint for Brand
 	,CONSTRAINT FK_tblForecastData_UK_Brand FOREIGN KEY ([Brand]) 
 		REFERENCES [dbo].[tblBrand]([Code])
