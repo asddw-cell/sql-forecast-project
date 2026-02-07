@@ -1,3 +1,4 @@
+
 /*
 
 ==============================================================================
@@ -14,6 +15,7 @@ Script Purpose:
 	Global:
 		tblForecastType
 		tblSalesChannel
+		tblBusinessUnit
 		tblPriceType
 		tblBrand
 		tblUserLogin
@@ -85,6 +87,30 @@ INSERT INTO [dbo].[tblSalesChannel]
            ,'ECommerce'),
 		   ('FOB/DTR'
            ,'FOB/DI')
+GO
+
+
+-- Create the dimension table tblBusinessUnit and populate values.
+
+CREATE TABLE [dbo].[tblBusinessUnit](
+	[Code] [int] NOT NULL,
+	[Description] [nvarchar](max) NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[Code] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+INSERT INTO [dbo].[tblBusinessUnit]
+           ([Code]
+           ,[Description])
+     VALUES
+           (1
+           ,'Games'),
+		   (2
+           ,'Toys')
 GO
 
 
