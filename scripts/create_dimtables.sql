@@ -195,7 +195,7 @@ CREATE TABLE [dbo].[tblItem_UK](
 	[Item] [nvarchar](123) NOT NULL,
 	[BrandName] [nvarchar](50) NOT NULL,
 	[BrandCode] [nvarchar](25) NOT NULL,
-	[BrandBrand] [nvarchar](175) NOT NULL
+	[Brand] [nvarchar](175) NOT NULL
 PRIMARY KEY CLUSTERED 
 (
 	[ItemNo] ASC
@@ -211,7 +211,7 @@ CREATE TABLE [dbo].[tblItem_US](
 	[Item] [nvarchar](123) NOT NULL,
 	[BrandName] [nvarchar](50) NOT NULL,
 	[BrandCode] [nvarchar](25) NOT NULL,
-	[BrandBrand] [nvarchar](175) NOT NULL
+	[Brand] [nvarchar](175) NOT NULL
 PRIMARY KEY CLUSTERED 
 (
 	[ItemNo] ASC
