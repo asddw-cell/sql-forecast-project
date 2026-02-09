@@ -28,7 +28,8 @@ BEGIN TRAN;
 		[Item],
 		[BrandName],
 		[BrandCode],
-		[Brand]
+		[Brand],
+		[ItemStatus]
 		)
 
 	SELECT
@@ -40,7 +41,8 @@ BEGIN TRAN;
 			WHEN DV.[Code] IS NOT NULL
 				THEN CONCAT(DV.[Code], ' - ', DV.[Name])
 			ELSE ''
-		END
+		END,
+		ISNULL(IRD.[Item Status], '')
 	FROM [SaaSStageUK].[dbo].[UK_PROD_Item] I
 	LEFT OUTER JOIN
 		(
@@ -53,6 +55,17 @@ BEGIN TRAN;
 			AND [Dimension Code] = '2-BRAND'
 		) DV ON I.DW_Account = DV.[DW_Account]
 			AND I.[Global Dimension 2 Code] = DV.[Code]
+	LEFT OUTER JOIN
+		(
+		SELECT 
+			[DW_Account],
+			[Item No.],
+			[Item Status]
+		FROM [SaaSStageUK].[dbo].[UK_PROD_Item Relation Dimension RRF]
+		WHERE [DW_Account] = 'Goliath_UK'
+			AND [Dimension Level One Code] = 'UK_UK'
+		) IRD ON I.[DW_Account] = IRD.[DW_Account]
+			AND I.[No.] = IRD.[Item No.]
 	WHERE I.[DW_Account] = 'Goliath_UK'
 		AND I.[Inventory Posting Group] = 'FINISHED'
 
