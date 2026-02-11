@@ -18,4 +18,5 @@ Backend preparation.
 
 Data imports.
 
-  1. [import_ForecastData_US.sql to populate tblForecastData_US with initial data](https://github.com/asddw-cell/sql-forecast-project/tree/main/scripts/import_ForecastData_US.sql)
+  1. [import_ForecastCustomer_US.sql to populate tblForecastCustomer_US with initial data](https://github.com/asddw-cell/sql-forecast-project/tree/main/scripts/import_ForecastCustomer_US.sql)
+  2. [import_ForecastData_US.sql to populate tblForecastData_US with initial data](https://github.com/asddw-cell/sql-forecast-project/tree/main/scripts/import_ForecastData_US.sql)
