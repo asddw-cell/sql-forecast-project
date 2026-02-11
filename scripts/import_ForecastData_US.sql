@@ -7,7 +7,7 @@ Import ForecastData for US
 ==============================================================================
 
 Script Purpose:
-	This script inserts data to tblForecastData_US from a SELECT statement against the Sales Forecast fact table
+	This script inserts initial data to tblForecastData_US from a SELECT statement against the Sales Forecast fact table
     in the US staging database. The @StartDate variable is used to filter the data.
 	
 
