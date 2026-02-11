@@ -15,3 +15,7 @@ Backend preparation.
   5. [create_proc_Insert_tblBrand.sql to create the stored procedure to insert data to tblBrand](https://github.com/asddw-cell/sql-forecast-project/tree/main/scripts/create_proc_Insert_tblBrand.sql)
   6. [create_proc_Insert_tblItem_UK.sql to create the stored procedure to insert data to tblItem_UK](https://github.com/asddw-cell/sql-forecast-project/tree/main/scripts/create_proc_Insert_tblItem_UK.sql)
   7. [create_proc_Insert_tblItem_US.sql to create the stored procedure to insert data to tblItem_US](https://github.com/asddw-cell/sql-forecast-project/tree/main/scripts/create_proc_Insert_tblItem_US.sql)
+
+Data imports.
+
+  1. [import_ForecastData_US.sql to populate tblForecastData_US with initial data](https://github.com/asddw-cell/sql-forecast-project/tree/main/scripts/import_ForecastData_US.sql)
