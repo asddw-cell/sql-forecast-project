@@ -1,3 +1,4 @@
+
 /*
 
 ==============================================================================
@@ -44,8 +45,8 @@ SELECT 1 AS [Forecast Type]
 	,1 AS [BusinessUnit]
 	,[Brand_Code] AS [Brand]
 	,[Item No_] AS [ItemNo]
-	,[Quantity]
-	,[Forecast Sales NSP] / [Quantity] AS [Price]
+	,SUM([Quantity])
+	,SUM([Forecast Sales NSP]) / SUM([Quantity]) AS [Price]
 	,1 AS [PriceType]
 	,NULL
 	,NULL
@@ -53,4 +54,5 @@ SELECT 1 AS [Forecast Type]
 	,NULL
 FROM [NLREPORTING-P].[JetStage_US].[dbo].[DataStatic_dbo_FactSalesForecast_US]
 WHERE [Date] >= @StartDate
+GROUP BY [Domestic_FOB], [ForecastingEntity], [Date], [Brand_Code], [Item No_]
 GO
