@@ -36,7 +36,6 @@ INSERT INTO [dbo].[tblForecastData_US] (
 	,[Quantity]
 	,[Price]
 	,[PriceType]
-	,[DateKey]
 	,[OpenDateKey]
 	,[CreatedDate]
 	,[CreatedBy]
@@ -54,7 +53,6 @@ SELECT 1 AS [Forecast Type]
 	,SUM([Quantity])
 	,SUM([Forecast Sales NSP]) / SUM([Quantity]) AS [Price]
 	,1 AS [PriceType]
-	,YEAR([Date]) * 100 + MONTH([Date]) AS [DateKey]
 	,NULL
 	,@GetDate
 	,'system'
