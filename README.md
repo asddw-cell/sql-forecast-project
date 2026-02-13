@@ -6,15 +6,24 @@ Phase 1 limitations:
   2.  The frontend will not value individual months, only the full years.
   3.  Months cannot be locked for editing.
 
-Backend preparation.
+Backend preparation:
 
-  1. [init_database.sql to create the database](https://github.com/asddw-cell/sql-forecast-project/tree/main/scripts/init_database.sql)
-  2. [create_dimtables.sql to create the dimensional tables](https://github.com/asddw-cell/sql-forecast-project/tree/main/scripts/create_dimtables.sql)
-  3. [create_tblForecastData_US.sql to create the transactional table for US](https://github.com/asddw-cell/sql-forecast-project/tree/main/scripts/create_tblForecastData_US.sql)
-  4. [create_tblForecastData_UK.sql to create the transactional table for UK](https://github.com/asddw-cell/sql-forecast-project/tree/main/scripts/create_tblForecastData_UK.sql)
-  5. [create_proc_Insert_tblBrand.sql to create the stored procedure to insert data to tblBrand](https://github.com/asddw-cell/sql-forecast-project/tree/main/scripts/create_proc_Insert_tblBrand.sql)
-  6. [create_proc_Insert_tblItem_UK.sql to create the stored procedure to insert data to tblItem_UK](https://github.com/asddw-cell/sql-forecast-project/tree/main/scripts/create_proc_Insert_tblItem_UK.sql)
-  7. [create_proc_Insert_tblItem_US.sql to create the stored procedure to insert data to tblItem_US](https://github.com/asddw-cell/sql-forecast-project/tree/main/scripts/create_proc_Insert_tblItem_US.sql)
+  1.  [init_database.sql to create the database](https://github.com/asddw-cell/sql-forecast-project/tree/main/scripts/init_database.sql)
+  2.  [create_dimtables.sql to create the dimensional tables](https://github.com/asddw-cell/sql-forecast-project/tree/main/scripts/create_dimtables.sql)
+  3.  [create_proc_Insert_tblBrand.sql to create the stored procedure to insert data to tblBrand](https://github.com/asddw-cell/sql-forecast-project/tree/main/scripts/create_proc_Insert_tblBrand.sql)
+
+  UK environment:
+  
+  1.  [create_tblForecastData_UK.sql to create the transactional table for UK](https://github.com/asddw-cell/sql-forecast-project/tree/main/scripts/create_tblForecastData_UK.sql)
+  2.  [create_proc_Insert_tblItem_UK.sql to create the stored procedure to insert data to tblItem_UK](https://github.com/asddw-cell/sql-forecast-project/tree/main/scripts/create_proc_Insert_tblItem_UK.sql)
+
+  US environment:
+
+  1.  [create_tblForecastData_US.sql to create the transactional table for US](https://github.com/asddw-cell/sql-forecast-project/tree/main/scripts/create_tblForecastData_US.sql)
+  2.  [create_proc_Insert_tblItem_US.sql to create the stored procedure to insert data to tblItem_US](https://github.com/asddw-cell/sql-forecast-project/tree/main/scripts/create_proc_Insert_tblItem_US.sql)
+
+
+
 
 Data imports.
 
