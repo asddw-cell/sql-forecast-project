@@ -1,5 +1,6 @@
 
 
+
 /*
 
 ==============================================================================
@@ -26,6 +27,7 @@ Script Purpose:
 		tblForecastCustomer_US
 		tblItem_UK
 		tblItem_US
+		tblItemCategory_UK
 
 */
 
@@ -43,7 +45,7 @@ GO
 
 CREATE TABLE [dbo].[tblForecastType](
 	[Code] [int] NOT NULL,
-	[Description] [nvarchar](10) NULL,
+	[Description] [nvarchar](10) NOT NULL,
 PRIMARY KEY CLUSTERED 
 (
 	[Code] ASC
@@ -69,7 +71,7 @@ GO
 
 CREATE TABLE [dbo].[tblSalesChannel](
 	[Code] [nvarchar](15) NOT NULL,
-	[Description] [nvarchar](30) NULL,
+	[Description] [nvarchar](30) NOT NULL,
 PRIMARY KEY CLUSTERED 
 (
 	[Code] ASC
@@ -95,7 +97,7 @@ GO
 
 CREATE TABLE [dbo].[tblBusinessUnit](
 	[Code] [int] NOT NULL,
-	[Description] [nvarchar](max) NULL,
+	[Description] [nvarchar](max) NOT NULL,
 PRIMARY KEY CLUSTERED 
 (
 	[Code] ASC
@@ -119,7 +121,7 @@ GO
 
 CREATE TABLE [dbo].[tblPriceType](
 	[Code] [int] NOT NULL,
-	[Description] [nvarchar](10) NULL,
+	[Description] [nvarchar](10) NOT NULL,
 PRIMARY KEY CLUSTERED 
 (
 	[Code] ASC
@@ -197,6 +199,7 @@ CREATE TABLE [dbo].[tblItem_UK](
 	[BrandName] [nvarchar](50) NOT NULL,
 	[BrandCode] [nvarchar](25) NOT NULL,
 	[Brand] [nvarchar](175) NOT NULL,
+	[ItemCategory] [nvarchar](20) NULL,
 	[ItemStatus] [nvarchar](20) NULL
 PRIMARY KEY CLUSTERED 
 (
@@ -220,4 +223,29 @@ PRIMARY KEY CLUSTERED
 	[ItemNo] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
+GO
+
+-- Create the dimension table tblItemCategory_UK and populate values.
+
+CREATE TABLE [dbo].[tblItemCategory_UK](
+	[Code] [nvarchar](20) NOT NULL,
+	[Description] [nvarchar](100) NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[Code] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+INSERT INTO [dbo].[tblItemCategory_UK]
+           ([Code]
+           ,[Description])
+     VALUES
+           ('GAMES'
+           ,'Games'),
+		   ('PLAYMONSTER'
+           ,'PlayMonster'),
+		   ('TOYS'
+           ,'Toys')
 GO
