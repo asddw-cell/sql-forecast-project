@@ -47,11 +47,14 @@ CREATE TABLE [dbo].[tblForecastData_UK] (
 	,[Year] [int] NOT NULL
 	,[MonthNum] [int] NOT NULL
 	,[BusinessUnit] [int] NULL
+	,[ItemCategory] [nvarchar](20) NULL
 	,[Brand] [nvarchar](25) NOT NULL
 	,[ItemNo] [nvarchar](20) NOT NULL
 	,[Quantity] [decimal](38, 20) NOT NULL
 	,[Price] [decimal](38, 20) NOT NULL
 	,[PriceType] [int] NOT NULL
+	,[DateKey] [int] NOT NULL
+	,[OpenDateKey] [int] NULL
 	,[CreatedDate] [datetime] NULL
 	,[CreatedBy] [nvarchar](50) NULL
 	,[ModifiedDate] [datetime] NULL
