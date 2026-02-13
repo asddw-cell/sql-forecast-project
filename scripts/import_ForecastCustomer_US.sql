@@ -8,7 +8,7 @@ Import ForecastCustomer for US
 
 Script Purpose:
 	This script inserts initial data to tblForecastCustomer_US from a SELECT statement against the Forecasting Entity fact table
-    in the US staging database. All customers are set as Active and this should be reviewed. Amazon CA and Walmart CA names are
+    in the US staging database. All customers are defaulted to Active and this should be reviewed. Amazon CA and Walmart CA names are
 	transformed to create unique name values.
 	
 
