@@ -9,7 +9,7 @@ Import ForecastCustomer for UK
 
 Script Purpose:
 	This script inserts initial data to tblForecastCustomer_UK from a SELECT statement against the Forecasting Entity fact table
-    in the UK staging database. All customers are set as Active and this should be reviewed.
+    in the UK staging database. All customers are defaulted to Active and this should be reviewed.
 	
 
 */
