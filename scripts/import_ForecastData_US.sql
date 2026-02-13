@@ -1,4 +1,5 @@
 
+
 /*
 
 ==============================================================================
@@ -16,9 +17,12 @@ Script Purpose:
 USE [Forecast]
 GO
 
-DECLARE @StartDate AS DATE;
+DECLARE 
+	@StartDate AS date,
+	@GetDate AS datetime;
 
-SET @StartDate = '2026-04-01'
+SET @StartDate = '2026-04-01';
+SET	@GetDate = GETDATE();
 
 INSERT INTO [dbo].[tblForecastData_US] (
 	[ForecastType]
@@ -32,6 +36,8 @@ INSERT INTO [dbo].[tblForecastData_US] (
 	,[Quantity]
 	,[Price]
 	,[PriceType]
+	,[DateKey]
+	,[OpenDateKey]
 	,[CreatedDate]
 	,[CreatedBy]
 	,[ModifiedDate]
@@ -48,10 +54,12 @@ SELECT 1 AS [Forecast Type]
 	,SUM([Quantity])
 	,SUM([Forecast Sales NSP]) / SUM([Quantity]) AS [Price]
 	,1 AS [PriceType]
+	,YEAR([Date]) * 100 + MONTH([Date]) AS [DateKey]
 	,NULL
-	,NULL
-	,NULL
-	,NULL
+	,@GetDate
+	,'system'
+	,@GetDate
+	,'system'
 FROM [NLREPORTING-P].[JetStage_US].[dbo].[DataStatic_dbo_FactSalesForecast_US]
 WHERE [Date] >= @StartDate
 GROUP BY [Domestic_FOB], [ForecastingEntity], [Date], [Brand_Code], [Item No_]
