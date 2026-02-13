@@ -51,7 +51,6 @@ CREATE TABLE [dbo].[tblForecastData_US] (
 	,[Quantity] [decimal](38, 20) NOT NULL
 	,[Price] [decimal](38, 20) NOT NULL
 	,[PriceType] [int] NOT NULL
-	,[DateKey] [int] NULL
 	,[OpenDateKey] [int] NULL
 	,[CreatedDate] [datetime] NULL
 	,[CreatedBy] [nvarchar](50) NULL
