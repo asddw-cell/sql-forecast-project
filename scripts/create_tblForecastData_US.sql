@@ -49,7 +49,6 @@ CREATE TABLE [dbo].[tblForecastData_US] (
 	[Year] [int] NOT NULL,
 	[MonthNum] [int] NOT NULL,
 	[BusinessUnit] [int] NULL,
-	[ItemCategory] [nvarchar](20) NOT NULL,
 	[Brand] [nvarchar](25) NOT NULL,
 	[ItemNo] [nvarchar](20) NOT NULL,
 	[Quantity] [decimal](38, 20) NOT NULL,
