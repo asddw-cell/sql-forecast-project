@@ -1,98 +1,96 @@
-/* 
-    PURPOSE OF THIS SCRIPT
-    ----------------------
-    Ensure that for every:
+/*
+==============================================================================
+PURPOSE OF THIS SCRIPT
+==============================================================================
 
-        ForecastType
-        SalesChannel
-        ForecastCustomer
-        Year
-        MonthNum
-        BusinessUnit
-        Brand
-        ItemNo
-        PriceType
-        Price
+Business Rule:
+--------------
+For every existing combination of:
 
-    there is a row in tblForecastData_US.
+    ForecastType
+    SalesChannel
+    ForecastCustomer
+    Year
+    BusinessUnit
+    Brand
+    ItemNo
+    PriceType
+    Price
 
-    If a specific Month + Price combination does NOT exist,
-    we create a new row with:
+we must ensure that ALL 12 months (1–12) exist.
 
-        Quantity = 0
+If a specific Month + Price combination does NOT exist,
+we create a new row with:
 
-    In other words:
-    We are making Price part of the business key and 
-    ensuring that every price variant exists for every month.
+    Quantity = 0
+
+IMPORTANT:
+----------
+We ONLY generate rows for years that already exist
+for that item/customer/price combination.
+
+Example:
+- If an item exists in 2026 and 2027 → fill both years.
+- If it exists only in 2026 → do NOT create 2027 rows.
+
+Price IS part of the uniqueness rule.
 */
 
 
-/* =============================
+/* =========================================================
    1️⃣ Parameter Setup
-   ============================= */
-
-DECLARE @StartDate date = '2026-01-01';     -- First month to evaluate
-DECLARE @Months int = 12;                  -- Number of months to generate
+   ========================================================= */
 
 DECLARE @ForecastType int = 1;
 DECLARE @PriceType int = 1;
 DECLARE @BusinessUnit int = 1;
 
-/* Optional filters for testing one specific combo */
+/* Optional filters for testing a single combination.
+   Remove these filters to run for all data. */
 DECLARE @ForecastCustomer nvarchar(20) = 'US_CA_WAL';
 DECLARE @ItemNo nvarchar(20) = '108202.104';
 
-/* Calculate end boundary (exclusive) */
-DECLARE @EndDate date = DATEADD(MONTH, @Months, @StartDate);
 
 
+/* =========================================================
+   2️⃣ Create a Static List of Months (1–12)
+   =========================================================
 
-/* =============================
-   2️⃣ Generate a List of Months
-   =============================
+   Instead of generating dates, we simply create a table
+   containing the numbers 1 through 12.
 
-   This creates a row for each month:
-
-        2026-01-01
-        2026-02-01
-        ...
-        2026-12-01
-
-   We will later CROSS JOIN this to price variants.
+   This represents all months in a year.
 */
 
-WITH MonthSeries AS
+WITH Months AS
 (
-    SELECT @StartDate AS MonthStart
-
-    UNION ALL
-
-    SELECT DATEADD(MONTH, 1, MonthStart)
-    FROM MonthSeries
-    WHERE DATEADD(MONTH, 1, MonthStart) < @EndDate
+    SELECT v.MonthNum
+    FROM (VALUES 
+        (1),(2),(3),(4),(5),(6),
+        (7),(8),(9),(10),(11),(12)
+    ) v(MonthNum)
 ),
 
 
 
-/* =============================
-   3️⃣ Get Distinct Price Variants
-   =============================
+/* =========================================================
+   3️⃣ Get Existing Year + Price Variants
+   =========================================================
 
-   This pulls the DISTINCT combinations of:
+   This pulls DISTINCT combinations from the TARGET table.
 
-        SalesChannel
-        ForecastCustomer
-        Brand
-        ItemNo
-        Price
+   We include:
+       - Year
+       - Price
 
-   from the TARGET table.
+   Because:
+       • We only want to generate rows for years that already exist
+       • Price is part of the business key
 
-   Important:
-   We include Price here because Price is part of the uniqueness rule.
+   DISTINCT ensures we don’t accidentally multiply rows.
 */
 
-PriceVariants AS
+YearPriceVariants AS
 (
     SELECT DISTINCT
         t.ForecastType,
@@ -102,40 +100,65 @@ PriceVariants AS
         t.Brand,
         t.ItemNo,
         t.PriceType,
-        t.Price
+        t.Price,
+        t.[Year]
     FROM dbo.tblForecastData_US t
     WHERE t.ForecastType = @ForecastType
       AND t.PriceType    = @PriceType
       AND ISNULL(t.BusinessUnit, @BusinessUnit) = @BusinessUnit
       AND t.Price IS NOT NULL
 
-      /* Limit price variants to the same time window */
-      AND DATEFROMPARTS(t.[Year], t.MonthNum, 1) >= @StartDate
-      AND DATEFROMPARTS(t.[Year], t.MonthNum, 1) <  @EndDate
-
       /* Optional test filters */
       AND t.ForecastCustomer = @ForecastCustomer
       AND t.ItemNo = @ItemNo
+),
+
+
+
+/* =========================================================
+   4️⃣ Expand Each Year into 12 Months
+   =========================================================
+
+   CROSS JOIN multiplies rows.
+
+   If we have:
+       2 price variants
+       1 year
+       12 months
+
+   CROSS JOIN produces:
+       2 × 12 = 24 possible rows
+
+   This gives us every Month that SHOULD exist.
+*/
+
+NeededRows AS
+(
+    SELECT
+        ypv.ForecastType,
+        ypv.SalesChannel,
+        ypv.ForecastCustomer,
+        ypv.BusinessUnit,
+        ypv.Brand,
+        ypv.ItemNo,
+        ypv.PriceType,
+        ypv.Price,
+        ypv.[Year],
+        m.MonthNum
+    FROM YearPriceVariants ypv
+    CROSS JOIN Months m
 )
 
 
 
-/* =============================
-   4️⃣ Insert Missing Rows
-   =============================
+/* =========================================================
+   5️⃣ Insert Only Missing Month Rows
+   =========================================================
 
-   We CROSS JOIN:
+   NOT EXISTS ensures we only insert rows that are missing.
 
-        PriceVariants  ×  MonthSeries
-
-   That creates every possible:
-
-        (Price variant × Month)
-
-   Then we use NOT EXISTS to check whether that
-   specific combination already exists in the table.
-
-   If it does NOT exist → we insert it.
+   If a row already exists → skip it.
+   If it does NOT exist → insert it with Quantity = 0.
 */
 
 INSERT INTO dbo.tblForecastData_US
@@ -153,71 +176,56 @@ INSERT INTO dbo.tblForecastData_US
     PriceType
 )
 SELECT
-    pv.ForecastType,
-    pv.SalesChannel,
-    pv.ForecastCustomer,
-    YEAR(ms.MonthStart)  AS [Year],
-    MONTH(ms.MonthStart) AS MonthNum,
-    pv.BusinessUnit,
-    pv.Brand,
-    pv.ItemNo,
+    n.ForecastType,
+    n.SalesChannel,
+    n.ForecastCustomer,
+    n.[Year],
+    n.MonthNum,
+    n.BusinessUnit,
+    n.Brand,
+    n.ItemNo,
 
     /* New rows are created with zero quantity */
     CAST(0 AS decimal(38,20)) AS Quantity,
 
-    /* Price comes from the price variant */
-    CAST(pv.Price AS decimal(38,20)) AS Price,
+    /* Price is preserved from the variant */
+    CAST(n.Price AS decimal(38,20)) AS Price,
 
-    pv.PriceType
+    n.PriceType
 
-FROM PriceVariants pv
-CROSS JOIN MonthSeries ms
-
-/* =============================
-   5️⃣ Only Insert Missing Rows
-   =============================
-
-   NOT EXISTS checks whether the exact same
-   key combination already exists.
-
-   If it exists → do NOT insert.
-   If it does NOT exist → insert it.
-*/
-
+FROM NeededRows n
 WHERE NOT EXISTS
 (
     SELECT 1
     FROM dbo.tblForecastData_US t
-    WHERE t.ForecastType = pv.ForecastType
-      AND t.PriceType    = pv.PriceType
-      AND t.[Year]       = YEAR(ms.MonthStart)
-      AND t.MonthNum     = MONTH(ms.MonthStart)
-      AND ISNULL(t.BusinessUnit, @BusinessUnit) = pv.BusinessUnit
+    WHERE t.ForecastType = n.ForecastType
+      AND t.PriceType    = n.PriceType
+      AND t.[Year]       = n.[Year]
+      AND t.MonthNum     = n.MonthNum
+      AND ISNULL(t.BusinessUnit, @BusinessUnit) = n.BusinessUnit
 
-      /* 
-         We use LTRIM/RTRIM + COLLATE to avoid:
+      /*
+         We use LTRIM/RTRIM + COLLATE to prevent:
 
-         - Trailing space mismatches
-         - Collation conflicts between databases
+         • Collation conflicts between databases
+         • Trailing space mismatches
       */
       AND LTRIM(RTRIM(t.SalesChannel))     
-            COLLATE DATABASE_DEFAULT = LTRIM(RTRIM(pv.SalesChannel))     
+            COLLATE DATABASE_DEFAULT = LTRIM(RTRIM(n.SalesChannel))     
             COLLATE DATABASE_DEFAULT
 
       AND LTRIM(RTRIM(t.ForecastCustomer)) 
-            COLLATE DATABASE_DEFAULT = LTRIM(RTRIM(pv.ForecastCustomer)) 
+            COLLATE DATABASE_DEFAULT = LTRIM(RTRIM(n.ForecastCustomer)) 
             COLLATE DATABASE_DEFAULT
 
       AND LTRIM(RTRIM(t.Brand))            
-            COLLATE DATABASE_DEFAULT = LTRIM(RTRIM(pv.Brand))            
+            COLLATE DATABASE_DEFAULT = LTRIM(RTRIM(n.Brand))            
             COLLATE DATABASE_DEFAULT
 
       AND LTRIM(RTRIM(t.ItemNo))           
-            COLLATE DATABASE_DEFAULT = LTRIM(RTRIM(pv.ItemNo))           
+            COLLATE DATABASE_DEFAULT = LTRIM(RTRIM(n.ItemNo))           
             COLLATE DATABASE_DEFAULT
 
       /* Price is part of the uniqueness rule */
-      AND t.Price = pv.Price
-)
-
-OPTION (MAXRECURSION 2000);
+      AND t.Price = n.Price
+);
