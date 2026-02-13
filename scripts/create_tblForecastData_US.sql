@@ -19,7 +19,6 @@ Warning:
 USE [Forecast]
 GO
 
-/****** Object:  Table [dbo].[tblForecastData_US]    Script Date: 06/02/2026 14:13:14 ******/
 SET ANSI_NULLS ON
 GO
 
@@ -28,7 +27,6 @@ GO
 
 IF OBJECT_ID('[dbo].[tblForecastData_US]', 'U') IS NOT NULL
 BEGIN
-	-- Disable system versioning first
 	ALTER TABLE [dbo].[tblForecastData_US]
 		SET (SYSTEM_VERSIONING = OFF);
 
@@ -37,69 +35,108 @@ BEGIN
 END
 GO
 
--- Create the transactional Forecast table for US
+
+/* =========================================================
+   1️⃣ Create Main Table
+   ========================================================= */
+
 CREATE TABLE [dbo].[tblForecastData_US] (
-	[EntryNo] [int] IDENTITY(1, 1) NOT NULL
-	,[ForecastType] [int] NOT NULL
-	,[SalesChannel] [nvarchar](15) NOT NULL
-	,[ForecastCustomer] [nvarchar](20) NOT NULL
-	,[Year] [int] NOT NULL
-	,[MonthNum] [int] NOT NULL
-	,[BusinessUnit] [int] NULL
-	,[Brand] [nvarchar](25) NOT NULL
-	,[ItemNo] [nvarchar](20) NOT NULL
-	,[Quantity] [decimal](38, 20) NOT NULL
-	,[Price] [decimal](38, 20) NOT NULL
-	,[PriceType] [int] NOT NULL
-	,[OpenDateKey] [int] NULL
-	,[CreatedDate] [datetime] NULL
-	,[CreatedBy] [nvarchar](50) NULL
-	,[ModifiedDate] [datetime] NULL
-	,[ModifiedBy] [nvarchar](50) NULL
-	,[SysStartTime] [datetime2](7) GENERATED ALWAYS AS ROW START HIDDEN NOT NULL
-	,[SysEndTime] [datetime2](7) GENERATED ALWAYS AS ROW END HIDDEN NOT NULL
-	,
-	-- Add primary key to EntryNo
-	PRIMARY KEY CLUSTERED ([EntryNo] ASC) WITH (
-		PAD_INDEX = OFF
-		,STATISTICS_NORECOMPUTE = OFF
-		,IGNORE_DUP_KEY = OFF
-		,ALLOW_ROW_LOCKS = ON
-		,ALLOW_PAGE_LOCKS = ON
-		,OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF
-		) ON [PRIMARY]
-	-- Add foreign key constraint for ForecastType
-	,CONSTRAINT FK_tblForecastData_US_ForecastType FOREIGN KEY ([ForecastType]) 
-		REFERENCES [dbo].[tblForecastType]([Code])
-	-- Add foreign key constraint for SalesChannel
-	,CONSTRAINT FK_tblForecastData_US_SalesChannel FOREIGN KEY ([SalesChannel]) 
-		REFERENCES [dbo].[tblSalesChannel]([Code])
-	-- Add foreign key constraint for ForecastCustomer
-	,CONSTRAINT FK_tblForecastData_US_ForecastCustomer FOREIGN KEY ([ForecastCustomer]) 
-		REFERENCES [dbo].[tblForecastCustomer_US]([Code])
-	-- Add foreign key constraint for BusinessUnit
-	,CONSTRAINT FK_tblForecastData_US_BusinessUnit FOREIGN KEY ([BusinessUnit]) 
-		REFERENCES [dbo].[tblBusinessUnit]([Code])
-	-- Add foreign key constraint for Brand
-	,CONSTRAINT FK_tblForecastData_US_Brand FOREIGN KEY ([Brand]) 
-		REFERENCES [dbo].[tblBrand]([Code])
-	-- Add foreign key constraint for ItemNo
-	,CONSTRAINT FK_tblForecastData_US_ItemNo FOREIGN KEY ([ItemNo]) 
-		REFERENCES [dbo].[tblItem_US]([ItemNo])
-	-- Add foreign key constraint for PriceType
-	,CONSTRAINT FK_tblForecastData_US_PriceType FOREIGN KEY ([PriceType]) 
-		REFERENCES [dbo].[tblPriceType]([Code])
-	,PERIOD FOR SYSTEM_TIME([SysStartTime], [SysEndTime])
-	) ON [PRIMARY]
-	-- Add history table for recording changes
-	WITH (SYSTEM_VERSIONING = ON (HISTORY_TABLE = [dbo].[tblForecastData_USHistory]))
+	[EntryNo] [int] IDENTITY(1, 1) NOT NULL,
+	[ForecastType] [int] NOT NULL,
+	 NOT NULL,
+	 NOT NULL,
+	[Year] [int] NOT NULL,
+	[MonthNum] [int] NOT NULL,
+	[BusinessUnit] [int] NULL,
+	 NOT NULL,
+	 NOT NULL,
+	[Quantity] [decimal](38, 20) NOT NULL,
+	[Price] [decimal](38, 20) NOT NULL,
+	[PriceType] [int] NOT NULL,
+	[OpenDateKey] [int] NULL,
+	[CreatedDate] [datetime] NULL,
+	 NULL,
+	[ModifiedDate] [datetime] NULL,
+	 NULL,
+	 GENERATED ALWAYS AS ROW START HIDDEN NOT NULL,
+	 GENERATED ALWAYS AS ROW END HIDDEN NOT NULL,
+
+	PRIMARY KEY CLUSTERED ([EntryNo] ASC),
+
+	CONSTRAINT FK_tblForecastData_US_ForecastType FOREIGN KEY ([ForecastType]) 
+		REFERENCES [dbo].[tblForecastType]([Code]),
+
+	CONSTRAINT FK_tblForecastData_US_SalesChannel FOREIGN KEY ([SalesChannel]) 
+		REFERENCES [dbo].[tblSalesChannel]([Code]),
+
+	CONSTRAINT FK_tblForecastData_US_ForecastCustomer FOREIGN KEY ([ForecastCustomer]) 
+		REFERENCES [dbo].[tblForecastCustomer_US]([Code]),
+
+	CONSTRAINT FK_tblForecastData_US_BusinessUnit FOREIGN KEY ([BusinessUnit]) 
+		REFERENCES [dbo].[tblBusinessUnit]([Code]),
+
+	CONSTRAINT FK_tblForecastData_US_Brand FOREIGN KEY ([Brand]) 
+		REFERENCES [dbo].[tblBrand]([Code]),
+
+	CONSTRAINT FK_tblForecastData_US_ItemNo FOREIGN KEY ([ItemNo]) 
+		REFERENCES [dbo].[tblItem_US]([ItemNo]),
+
+	CONSTRAINT FK_tblForecastData_US_PriceType FOREIGN KEY ([PriceType]) 
+		REFERENCES [dbo].[tblPriceType]([Code]),
+
+	PERIOD FOR SYSTEM_TIME([SysStartTime], [SysEndTime])
+)
+WITH (SYSTEM_VERSIONING = ON (HISTORY_TABLE = [dbo].[tblForecastData_USHistory]))
 GO
 
--- Define default versioning start and end dates for rows
-ALTER TABLE [dbo].[tblForecastData_US] ADD DEFAULT(getutcdate())
-FOR [SysStartTime]
+
+/* =========================================================
+   2️⃣ Add Default Values for Temporal Columns
+   ========================================================= */
+
+ALTER TABLE [dbo].[tblForecastData_US]
+ADD DEFAULT (GETUTCDATE()) FOR [SysStartTime]
 GO
 
-ALTER TABLE [dbo].[tblForecastData_US] ADD DEFAULT(CONVERT([datetime2], '9999 - 12 - 31 23 : 59 : 59.9999999'))
+ALTER TABLE [dbo].[tblForecastData_US]
+ADD DEFAULT (CONVERT(datetime2, '9999-12-31 23:59:59.9999999'))
 FOR [SysEndTime]
+GO
+
+
+/* =========================================================
+   3️⃣ Enforce Business Uniqueness Rule
+   =========================================================
+
+   This UNIQUE INDEX enforces that there can only be one row
+   per:
+
+       ForecastType
+       SalesChannel
+       ForecastCustomer
+       Year
+       MonthNum
+       BusinessUnit
+       Brand
+       ItemNo
+       PriceType
+       Price
+
+   This prevents accidental duplicate month/price combinations.
+*/
+
+CREATE UNIQUE NONCLUSTERED INDEX UX_tblForecastData_US_BusinessKey_WithPrice
+ON dbo.tblForecastData_US
+(
+	ForecastType,
+	SalesChannel,
+	ForecastCustomer,
+	[Year],
+	MonthNum,
+	BusinessUnit,
+	Brand,
+	ItemNo,
+	PriceType,
+	Price
+);
 GO
