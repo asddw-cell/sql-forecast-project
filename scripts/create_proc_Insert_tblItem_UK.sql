@@ -1,3 +1,4 @@
+
 /*
 
 ==============================================================================
@@ -29,6 +30,7 @@ BEGIN TRAN;
 		[BrandName],
 		[BrandCode],
 		[Brand],
+		[ItemCategory],
 		[ItemStatus]
 		)
 
@@ -42,6 +44,7 @@ BEGIN TRAN;
 				THEN CONCAT(DV.[Code], ' - ', DV.[Name])
 			ELSE ''
 		END,
+		I.[Item Category Code],
 		ISNULL(IRD.[Item Status], '')
 	FROM [SaaSStageUK].[dbo].[UK_PROD_Item] I
 	LEFT OUTER JOIN
