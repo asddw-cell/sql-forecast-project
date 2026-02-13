@@ -23,7 +23,7 @@ Building a solution allowing end users to maintain a product forecast via an ele
   1.  [create_tblForecastData_US.sql to create the transactional table for US](https://github.com/asddw-cell/sql-forecast-project/tree/main/scripts/create_tblForecastData_US.sql)
   2.  [import_ForecastCustomer_US.sql to populate tblForecastCustomer_US with initial data](https://github.com/asddw-cell/sql-forecast-project/tree/main/scripts/import_ForecastCustomer_US.sql)
   3.  [create_proc_Insert_tblItem_US.sql to create the stored procedure to insert data to tblItem_US](https://github.com/asddw-cell/sql-forecast-project/tree/main/scripts/create_proc_Insert_tblItem_US.sql)
-  4.  [create_proc_Update_tblForecastData_US_OpenDataKey.sql to create the stored procedure to update OpenDateKey tblForecastData_US](https://github.com/asddw-cell/sql-forecast-project/tree/main/scripts/create_proc_Update_tblForecastData_OpenDateKey_US.sql)
+  4.  [create_proc_Update_tblForecastData_US_OpenDataKey.sql to create the stored procedure to update OpenDateKey tblForecastData_US](https://github.com/asddw-cell/sql-forecast-project/tree/main/scripts/create_proc_Update_tblForecastData_US_OpenDateKey.sql)
 
 ## Forecast data imports.
 
