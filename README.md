@@ -34,3 +34,4 @@ Building a solution allowing end users to maintain a product forecast via an ele
 ### US
 
   1.  [import_ForecastData_US.sql to populate tblForecastData_US with initial data](https://github.com/asddw-cell/sql-forecast-project/tree/main/scripts/import_ForecastData_US.sql)
+  2.  [create_missingrows_tblForecastData_US.sql to generate records in tblForecastData_US with 0 quantity where there was no source data](https://github.com/asddw-cell/sql-forecast-project/tree/main/scripts/create_missingrows_tblForecastData_US.sql)
