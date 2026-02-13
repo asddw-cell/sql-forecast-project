@@ -1,3 +1,4 @@
+
 /*
 
 ==============================================================================
@@ -43,23 +44,24 @@ GO
 CREATE TABLE [dbo].[tblForecastData_US] (
 	[EntryNo] [int] IDENTITY(1, 1) NOT NULL,
 	[ForecastType] [int] NOT NULL,
-	 NOT NULL,
-	 NOT NULL,
+	[SalesChannel] [nvarchar](15) NOT NULL,
+	[ForecastCustomer] [nvarchar](20) NOT NULL,
 	[Year] [int] NOT NULL,
 	[MonthNum] [int] NOT NULL,
 	[BusinessUnit] [int] NULL,
-	 NOT NULL,
-	 NOT NULL,
+	[ItemCategory] [nvarchar](20) NOT NULL,
+	[Brand] [nvarchar](25) NOT NULL,
+	[ItemNo] [nvarchar](20) NOT NULL,
 	[Quantity] [decimal](38, 20) NOT NULL,
 	[Price] [decimal](38, 20) NOT NULL,
 	[PriceType] [int] NOT NULL,
 	[OpenDateKey] [int] NULL,
 	[CreatedDate] [datetime] NULL,
-	 NULL,
+	[CreatedBy] [nvarchar](50) NULL,
 	[ModifiedDate] [datetime] NULL,
-	 NULL,
-	 GENERATED ALWAYS AS ROW START HIDDEN NOT NULL,
-	 GENERATED ALWAYS AS ROW END HIDDEN NOT NULL,
+	[ModifiedBy] [nvarchar](50) NULL,
+	[SysStartTime] [datetime2](7) GENERATED ALWAYS AS ROW START HIDDEN NOT NULL,
+	[SysEndTime] [datetime2](7) GENERATED ALWAYS AS ROW END HIDDEN NOT NULL,
 
 	PRIMARY KEY CLUSTERED ([EntryNo] ASC),
 
