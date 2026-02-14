@@ -19,7 +19,8 @@ GO
 
 DECLARE 
 	@StartDate AS date = '2026-01-01',
-	@GetDate AS datetime = GETDATE(),	
+	@GetDate AS datetime = GETDATE(),
+	@OpenDate date = DATEADD(MONTH, 3, GETDATE()),
 	@ForecastCustomer AS nvarchar(20) = 'US_CA_WAL';
 
 INSERT INTO [dbo].[tblForecastData_US] (
@@ -51,7 +52,7 @@ SELECT 1 AS [Forecast Type]
 	,SUM([Quantity])
 	,SUM([Forecast Sales NSP]) / SUM([Quantity]) AS [Price]
 	,1 AS [PriceType]
-	,NULL
+	,YEAR(@OpenDate) * 100 +MONTH(@OpenDate)
 	,@GetDate
 	,'system'
 	,@GetDate
