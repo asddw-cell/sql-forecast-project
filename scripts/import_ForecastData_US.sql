@@ -10,7 +10,7 @@ Import ForecastData for US
 
 Script Purpose:
 	This script inserts initial data to tblForecastData_US from a SELECT statement against the Sales Forecast fact table
-    in the US staging database. The @StartDate variable is used to filter the data.
+    in the US staging database. The @StartDate and @ForecastCustomer variables are used to filter the data.
 	
 
 */
@@ -19,7 +19,8 @@ GO
 
 DECLARE 
 	@StartDate AS date = '2026-01-01',
-	@GetDate AS datetime = GETDATE();
+	@GetDate AS datetime = GETDATE(),	
+	@ForecastCustomer AS nvarchar(20) = 'US_CA_WAL';
 
 INSERT INTO [dbo].[tblForecastData_US] (
 	[ForecastType]
@@ -57,5 +58,6 @@ SELECT 1 AS [Forecast Type]
 	,'system'
 FROM [NLREPORTING-P].[JetStage_US].[dbo].[DataStatic_dbo_FactSalesForecast_US]
 WHERE [Date] >= @StartDate
+		AND [ForecastingEntity] = @ForecastCustomer
 GROUP BY [Domestic_FOB], [ForecastingEntity], [Date], [Brand_Code], [Item No_]
 GO
