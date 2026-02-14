@@ -44,7 +44,7 @@ Price IS part of the uniqueness rule.
 DECLARE @ForecastType int = 1;
 DECLARE @PriceType int = 1;
 DECLARE @BusinessUnit int = 1;
-
+DECLARE @OpenDate date = DATEADD(MONTH, 3, GETDATE());
 /* Optional filters for testing a single combination.
    Remove these filters to run for all data. */
 DECLARE @ForecastCustomer nvarchar(20) = 'US_CA_WAL';
@@ -173,7 +173,8 @@ INSERT INTO dbo.tblForecastData_US
     ItemNo,
     Quantity,
     Price,
-    PriceType
+    PriceType,
+    OpenDateKey
 )
 SELECT
     n.ForecastType,
@@ -191,7 +192,8 @@ SELECT
     /* Price is preserved from the variant */
     CAST(n.Price AS decimal(38,20)) AS Price,
 
-    n.PriceType
+    n.PriceType,
+    YEAR(@OpenDate) * 100 +MONTH(@OpenDate)
 
 FROM NeededRows n
 WHERE NOT EXISTS
