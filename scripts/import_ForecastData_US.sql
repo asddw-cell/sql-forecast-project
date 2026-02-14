@@ -19,7 +19,7 @@ GO
 
 DECLARE 
 	@StartDate AS date = '2026-01-01',
-	@GetDate AS datetime - GETDATE();
+	@GetDate AS datetime = GETDATE();
 
 INSERT INTO [dbo].[tblForecastData_US] (
 	[ForecastType]
