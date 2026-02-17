@@ -1,3 +1,4 @@
+
 /*
 ==============================================================================
 PURPOSE OF THIS SCRIPT
@@ -11,7 +12,6 @@ For every existing combination of:
     SalesChannel
     ForecastCustomer
     Year
-    BusinessUnit
     Brand
     ItemNo
     PriceType
@@ -43,7 +43,6 @@ Price IS part of the uniqueness rule.
 
 DECLARE @ForecastType int = 1;
 DECLARE @PriceType int = 1;
-DECLARE @BusinessUnit int = 1;
 DECLARE @OpenDate date = DATEADD(MONTH, 3, GETDATE());
 /* Optional filters for testing a single combination.
    Remove these filters to run for all data. */
@@ -96,7 +95,6 @@ YearPriceVariants AS
         t.ForecastType,
         t.SalesChannel,
         t.ForecastCustomer,
-        ISNULL(t.BusinessUnit, @BusinessUnit) AS BusinessUnit,
         t.Brand,
         t.ItemNo,
         t.PriceType,
@@ -105,7 +103,6 @@ YearPriceVariants AS
     FROM dbo.tblForecastData_US t
     WHERE t.ForecastType = @ForecastType
       AND t.PriceType    = @PriceType
-      AND ISNULL(t.BusinessUnit, @BusinessUnit) = @BusinessUnit
       AND t.Price IS NOT NULL
 
       /* Optional test filters */
@@ -138,7 +135,6 @@ NeededRows AS
         ypv.ForecastType,
         ypv.SalesChannel,
         ypv.ForecastCustomer,
-        ypv.BusinessUnit,
         ypv.Brand,
         ypv.ItemNo,
         ypv.PriceType,
@@ -168,7 +164,6 @@ INSERT INTO dbo.tblForecastData_US
     ForecastCustomer,
     [Year],
     MonthNum,
-    BusinessUnit,
     Brand,
     ItemNo,
     Quantity,
@@ -182,7 +177,6 @@ SELECT
     n.ForecastCustomer,
     n.[Year],
     n.MonthNum,
-    n.BusinessUnit,
     n.Brand,
     n.ItemNo,
 
@@ -204,7 +198,6 @@ WHERE NOT EXISTS
       AND t.PriceType    = n.PriceType
       AND t.[Year]       = n.[Year]
       AND t.MonthNum     = n.MonthNum
-      AND ISNULL(t.BusinessUnit, @BusinessUnit) = n.BusinessUnit
 
       /*
          We use LTRIM/RTRIM + COLLATE to prevent:
