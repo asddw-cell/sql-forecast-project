@@ -3,7 +3,6 @@ Use SQL Spreads to connect to tblForecastData table, check the box Show all rows
 In the columns tab, umcheck SysStartTime and SysEndTime columns. These are SQL system columns and are managed server side.
 
 Add lookup values for:
-  BusinessUnit
   Customer
   Brand
   Item
@@ -12,10 +11,11 @@ Add lookup values for:
 Rename column headers to be user friendly and change order
 
 Add A-Z sorting for:
-  BusinessUnit
   Brand
   ItemNo
   PriceType
+
+Setup change tracking by assigning CreatedBy, CreatedOn, ModifiedBy and ModifiedOn. Uncheck Allow delete rows
 
 Pivot the data - Pivot Key = MonthNum, Pivot Value = Quantity
   Excel header text, Pivot key
@@ -85,3 +85,10 @@ Import tblItem
     =FILTER(ItemData[Item],(ItemData[ItemStatus]="YES") + (ItemData[ItemStatus]="SELLOUT"))
 
 In the cell where the item for entry will be displayed, add a data validation rule allowing a List with the source being the first cell of the FILTER statement e.g. =Items!H4#
+
+Create DateKey in F1:Q1 (or whichever columns the mmm values are in)
+	=UNIQUE(ForecastData[Year])*100+MONTH(DATEVALUE(F4&" 1"))
+
+Setup data validation for columns F:Q with a custom formula to lock cells
+	=F$1>=$R5
+
