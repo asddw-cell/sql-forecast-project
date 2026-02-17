@@ -1,12 +1,87 @@
-Jan,1
-Feb,2
-Mar,3
-Apr,4
-May,5
-Jun,6
-Jul,7
-Aug,8
-Sep,9
-Oct,10
-Nov,11
-Dec,12
+Use SQL Spreads to connect to tblForecastData table, check the box Show all rows
+
+In the columns tab, umcheck SysStartTime and SysEndTime columns. These are SQL system columns and are managed server side.
+
+Add lookup values for:
+  BusinessUnit
+  Customer
+  Brand
+  Item
+  PriceType
+
+Rename column headers to be user friendly and change order
+
+Add A-Z sorting for:
+  BusinessUnit
+  Brand
+  ItemNo
+  PriceType
+
+Pivot the data - Pivot Key = MonthNum, Pivot Value = Quantity
+  Excel header text, Pivot key
+  Jan,1
+  Feb,2
+  Mar,3
+  Apr,4
+  May,5
+  Jun,6
+  Jul,7
+  Aug,8
+  Sep,9
+  Oct,10
+  Nov,11
+  Dec,12
+
+Create tree filters:
+  
+  Forecast Type
+    SELECT 
+	    [Code] AS Code,
+	    [Description] AS Text
+    FROM [Forecast].[dbo].[tblForecastType]
+  
+  Sales Channel
+    SELECT 
+    	[Code] AS Code,
+    	[Description] AS Text
+    FROM [Forecast].[dbo].[tblSalesChannel]
+    WHERE [Code] <> 'ECOMM'
+
+  Year
+    SELECT DISTINCT
+    	[Year] AS Code,
+    	[Year] AS Text
+    FROM [Forecast].[dbo].[tblForecastData_US]
+    WHERE [Year] >= YEAR(GETDATE())
+    ORDER BY [Year] ASC
+
+  Customer
+    SELECT
+    	[Code] AS Code,
+    	[Description] AS Text
+    FROM [Forecast].[dbo].[tblForecastCustomer_US]
+    WHERE [Active] = 1
+    ORDER BY [Description] ASC
+
+Add filters with Custom SQL:
+
+  Forecast Type
+    [Pivoted].[ForecastType] = @Forecast_Type_Code
+
+  Sales Channel
+    [Pivoted].[SalesChannel] = @Sales_Channel_Code
+
+  Year
+    [Pivoted].[Year] = @Year_Code
+
+  Customer
+    [Pivoted].[ForecastCustomer] = @Customer_Code
+
+Import tblItem
+  Add XLOOKUP to Forecast Entry table to show Item Status
+    =XLOOKUP([@Item],ItemData[Item],ItemData[ItemStatus])
+  
+  Add formula to list only items with the Item Status YES or SELLOUT.
+    =FILTER(ItemData[Item],(ItemData[ItemStatus]="YES") + (ItemData[ItemStatus]="SELLOUT"))
+
+In the cell where the item for entry will be displayed, add a data validation rule allowing a List with the source being the first cell of the FILTER statement e.g. =Items!H4#
