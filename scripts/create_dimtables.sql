@@ -60,9 +60,7 @@ INSERT INTO [dbo].[tblForecastType]
            (1
            ,'Sales'),
 		   (2
-           ,'GM'),
-		   (3
-           ,'Purchase')
+           ,'GM')
 GO
 
 
