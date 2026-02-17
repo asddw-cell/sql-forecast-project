@@ -1,5 +1,6 @@
 
 
+
 /*
 
 ==============================================================================
@@ -29,7 +30,6 @@ INSERT INTO [dbo].[tblForecastData_US] (
 	,[ForecastCustomer]
 	,[Year]
 	,[MonthNum]
-	,[BusinessUnit]
 	,[Brand]
 	,[ItemNo]
 	,[Quantity]
@@ -46,7 +46,6 @@ SELECT 1 AS [Forecast Type]
 	,[ForecastingEntity]
 	,YEAR([Date]) AS [Year]
 	,MONTH([Date]) AS [MonthNum]
-	,1 AS [BusinessUnit]
 	,[Brand_Code] AS [Brand]
 	,[Item No_] AS [ItemNo]
 	,SUM([Quantity])
