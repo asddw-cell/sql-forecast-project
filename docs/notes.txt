@@ -1,6 +1,6 @@
 Use SQL Spreads to connect to tblForecastData table, check the box Show all rows
 
-In the columns tab, umcheck SysStartTime and SysEndTime columns. These are SQL system columns and are managed server side.
+In the columns tab, uncheck SysStartTime and SysEndTime columns. These are SQL system columns and are managed server side.
 
 Add lookup values for:
   Customer
