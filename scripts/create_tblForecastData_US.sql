@@ -1,4 +1,5 @@
 
+
 /*
 
 ==============================================================================
@@ -48,7 +49,6 @@ CREATE TABLE [dbo].[tblForecastData_US] (
 	[ForecastCustomer] [nvarchar](20) NOT NULL,
 	[Year] [int] NOT NULL,
 	[MonthNum] [int] NOT NULL,
-	[BusinessUnit] [int] NULL,
 	[Brand] [nvarchar](25) NOT NULL,
 	[ItemNo] [nvarchar](20) NOT NULL,
 	[Quantity] [decimal](38, 20) NOT NULL,
@@ -72,9 +72,6 @@ CREATE TABLE [dbo].[tblForecastData_US] (
 
 	CONSTRAINT FK_tblForecastData_US_ForecastCustomer FOREIGN KEY ([ForecastCustomer]) 
 		REFERENCES [dbo].[tblForecastCustomer_US]([Code]),
-
-	CONSTRAINT FK_tblForecastData_US_BusinessUnit FOREIGN KEY ([BusinessUnit]) 
-		REFERENCES [dbo].[tblBusinessUnit]([Code]),
 
 	CONSTRAINT FK_tblForecastData_US_Brand FOREIGN KEY ([Brand]) 
 		REFERENCES [dbo].[tblBrand]([Code]),
@@ -117,7 +114,6 @@ GO
        ForecastCustomer
        Year
        MonthNum
-       BusinessUnit
        Brand
        ItemNo
        PriceType
@@ -134,7 +130,6 @@ ON dbo.tblForecastData_US
 	ForecastCustomer,
 	[Year],
 	MonthNum,
-	BusinessUnit,
 	Brand,
 	ItemNo,
 	PriceType,
