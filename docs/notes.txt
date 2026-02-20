@@ -56,12 +56,13 @@ Create tree filters:
     ORDER BY [Year] ASC
 
   Customer
-    SELECT
-    	[Code] AS Code,
-    	[Description] AS Text
-    FROM [Forecast].[dbo].[tblForecastCustomer_US]
-    WHERE [Active] = 1
-    ORDER BY [Description] ASC
+    SELECT [Customer].[Code] AS [Code]
+		,[Description] AS [Text]
+	FROM [Forecast].[dbo].[tblForecastCustomer_US] [Customer]
+	INNER JOIN [Forecast].[dbo].[Userlogin] [Access] ON [Customer].[Code] = [Access].[ForecastCustomer]
+		AND [Access].[UserLogin] = @WindowsUser
+	WHERE [Customer].[Active] = 1
+	ORDER BY [Customer].[Description]
 
 Add filters with Custom SQL:
 
