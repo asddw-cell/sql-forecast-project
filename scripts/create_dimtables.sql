@@ -130,7 +130,7 @@ GO
 
 CREATE TABLE [dbo].[Userlogin](
 	[UserLogin] [nvarchar](max) NOT NULL,
-	[ForecastingCustomer] [nvarchar](20) NOT NULL,
+	[ForecastCustomer] [nvarchar](20) NOT NULL,
 	[TableToAccess] [nvarchar](max) NOT NULL
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
