@@ -29,6 +29,21 @@ WITH
 	)
 
 INSERT INTO [dbo].[tblForecastData_US]
+           ([ForecastType]
+           ,[SalesChannel]
+           ,[ForecastCustomer]
+           ,[Year]
+           ,[MonthNum]
+           ,[Brand]
+           ,[ItemNo]
+           ,[Quantity]
+           ,[Price]
+           ,[PriceType]
+           ,[OpenDateKey]
+           ,[CreatedDate]
+           ,[CreatedBy]
+           ,[ModifiedDate]
+           ,[ModifiedBy])
 
 SELECT
 	1 AS [ForecastType],
@@ -41,6 +56,9 @@ SELECT
 	[Quantity],
 	[Price],
 	[PriceType],
-	YEAR(DATEADD(MONTH, 3, GETDATE())) * 100 +MONTH(DATEADD(MONTH, 3, GETDATE()))
-
+	YEAR(DATEADD(MONTH, 3, GETDATE())) * 100 +MONTH(DATEADD(MONTH, 3, GETDATE())),
+	GETDATE(),
+	'system',
+	GETDATE(),
+	'system'
 FROM #temp
